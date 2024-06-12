@@ -18,7 +18,7 @@ jobs:
       ECR_REPOSITORY: "hiberus-repository"
       DOCKER_REPO: "hiberus-repository"
       KEY_PAIR: "my-key-pair"
-      SECURITY_GROUP_ID: "sg-06ae4359c576f2c01"
+      SECURITY_GROUP_ID: "sg-09607d6d65566668f"
       SUBNET_ID: "subnet-016d0715f81141ebe"
 
     steps:
@@ -50,4 +50,4 @@ jobs:
 
       - name: Deploy to Amazon EC2
         run: |
-          aws ec2 run-instances --image-id ami-02aead0a55359d6ec --count 1 --instance-type t3.micro --key-name ${{ env.KEY_PAIR }} --security-group-ids ${{ env.SECURITY_GROUP_ID }} --subnet-id ${{ env.SUBNET_ID }} --user-data file://ec2/user-data.sh
+          aws ec2 run-instances --image-id ami-02aead0a55359d6ec --count 1 --instance-type t3.micro --key-name my-key-pair --security-group-ids sg-09607d6d65566668f --subnet-id subnet-016d0715f81141ebe --user-data file://ec2/user-data.sh
