@@ -1,20 +1,20 @@
 #!/bin/bash
 # Actualizar el sistema
 sudo yum update -y
-sudo amazon-linux-extras install docker
+
+# Instalar Docker
+sudo amazon-linux-extras install docker -y
 
 # Iniciar Docker
 sudo service docker start
+
+# Agregar el usuario ec2-user al grupo docker
 sudo usermod -a -G docker ec2-user
 
-# Clonar el repositorio y ejecutar la aplicación
-git clone https://github.com/AlfonsoBalmo/high-availability-hiberus-challenge.git /home/ec2-user/app
-cd /home/ec2-user/app
+# Descargar e iniciar la imagen de Docker de la aplicación
+AWS_ACCOUNT_ID=471112872744
+AWS_REGION=us-east-1
+ECR_REPOSITORY=hiberus-repository
+DB_ENDPOINT=challenge-hiberus.ctaag8q2kzwr.us-east-1.rds.amazonaws.com:5432
 
-# Esperar a que la base de datos esté lista
-while ! nc -z ${db_endpoint} 5432; do
-  sleep 1
-done
-
-# Ejecutar el contenedor Docker
-sudo docker run -d -p 80:80 -e DATABASE_URL=postgres://user:3216540@${db_endpoint}:5432/mydb your-aws-account-id.dkr.ecr.us-east-1.amazonaws.com/hiberus-repository:latest
+sudo docker run -d -p 80:80 -e DATABASE_URL=postgres://user:3216540@$DB_ENDPOINT/mydb $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
