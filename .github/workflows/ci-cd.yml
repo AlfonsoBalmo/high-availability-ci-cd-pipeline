@@ -17,9 +17,9 @@ jobs:
       AWS_ACCOUNT_ID: "471112872744"
       ECR_REPOSITORY: "hiberus-repository"
       DOCKER_REPO: "hiberus-repository"
-      KEY_PAIR: "my-key-pair" 
-      SECURITY_GROUP_ID: "sg-039cf60f138d32c91"  
-      SUBNET_ID: "subnet-016d0715f81141ebe"  
+      KEY_PAIR: "my-key-pair"
+      SECURITY_GROUP_ID: "sg-039cf60f138d32c91"
+      SUBNET_ID: "subnet-016d0715f81141ebe"
 
     steps:
       - name: Checkout code
@@ -37,7 +37,7 @@ jobs:
         run: npm test
 
       - name: Build Docker image
-        run: docker build -t ${{ env.DOCKER_REPO }}/challenge:latest .
+        run: docker build -t ${{ env.ECR_REPOSITORY }}:latest .
 
       - name: Log in to Amazon ECR
         id: login-ecr
@@ -45,7 +45,7 @@ jobs:
 
       - name: Push Docker image to Amazon ECR
         run: |
-          docker tag ${{ env.DOCKER_REPO }}/your-app-name:latest ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+          docker tag ${{ env.ECR_REPOSITORY }}:latest ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
           docker push ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
 
       - name: Deploy to Amazon EC2
