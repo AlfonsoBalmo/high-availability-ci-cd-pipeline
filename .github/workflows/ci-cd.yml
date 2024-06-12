@@ -18,7 +18,7 @@ jobs:
       ECR_REPOSITORY: "hiberus-repository"
       DOCKER_REPO: "hiberus-repository"
       KEY_PAIR: "my-key-pair"
-      SECURITY_GROUP_ID: "sg-039cf60f138d32c91"
+      SECURITY_GROUP_ID: "sg-06ae4359c576f2c01"
       SUBNET_ID: "subnet-016d0715f81141ebe"
 
     steps:
